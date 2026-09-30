@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block meta %}
+{% set home = get_section(path="_index.md") %}
+{% set title = home.title ~ " - " ~ section.title %}
+<title>{{ title}}</title>
+<meta property="og:title" content="{{ title}}">
+<meta name="dc.title" content="{{ title}}">
+<meta name="dc.creator" content="{{ config.author }}">
+<link rel="canonical" href="{{ section.permalink }}">
+{% endblock %}
+{% block content %}
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="{{ get_url(path='@/_index.md')}}">Home</a></li>
+      </ul>
+    </nav>
+    <h1 class="title is-1 mt-6 has-text-weight-light">Publications</h1>
+    {% set map = section.pages | group_by(attribute="extra.year") %}
+    {% set_global years = [] %}
+    {% for year, ignored in map %}
+        {% set_global years = [...years, year] %}
+    {% endfor %}
+    {% for year in years | sort | reverse %}
+        {% set pages = map[year] %}
+        <h2 class="title is-3 has-text-weight-light mb-2 mt-6">{{year}}</h2>
+        <ul class="content">
+        {% for page in pages %}
+            <li class="is-size-6 mb-4"><div>{{page.extra.citation_no_link | safe}} <a class="details-link" href="{{ page.permalink }}">details<span class="icon"><i class="fa-solid fa-chevron-right"></i></span></a></div>{% if page.extra.oa_status %}<div class="mt-2"><span class="tag is-success is-rounded">{{page.extra.oa_status}}</span></div>{% endif %}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    
+  </div>
+</div>
+
+
+{% endblock%}
