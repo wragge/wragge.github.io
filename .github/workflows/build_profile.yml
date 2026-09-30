@@ -27,7 +27,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Create zip
-      run: zip -r -j -x ".git*" profile.zip public/*
+      run: zip -r -j profile.zip public/* -x ".git*"
     - name: Commit zip
       uses: EndBug/add-and-commit@v10
       with:
