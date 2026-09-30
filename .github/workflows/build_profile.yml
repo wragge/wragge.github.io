@@ -34,5 +34,5 @@ jobs:
         directory: 'public'
     - name: Commit zip
       uses: EndBug/add-and-commit@v10
-        with:
-          add: 'profile.zip'
+      with:
+        add: 'profile.zip'
